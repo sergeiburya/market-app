@@ -5,13 +5,15 @@ import com.example.marketapp.repository.ProductRepository;
 import com.example.marketapp.service.ProductService;
 import java.math.BigDecimal;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
+
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Override
     public Product save(Product product) {
@@ -29,12 +31,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getByPriceBetween(BigDecimal from, BigDecimal to) {
+    public List<Product> getAllByPriceBetween(BigDecimal from, BigDecimal to) {
         return productRepository.findAllByPriceBetween(from, to);
     }
 
     @Override
-    public List<Product> getByCategoryId(List<Long> categoriesId) {
+    public List<Product> getAllByCategoryId(List<Long> categoriesId) {
         return productRepository.findAllByCategory(categoriesId);
     }
 }
