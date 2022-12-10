@@ -61,7 +61,7 @@ public class ProductController {
 
     @GetMapping("/categories")
     public List<ProductResponseDto> getAllByCategoryId(@RequestParam List<Long> categoriesId) {
-        return productService.getAllByCategoryId(categoriesId)
+        return productService.getAllByCategoryIn(categoriesId)
                 .stream()
                 .map(productMapper::modelToDto)
                 .collect(Collectors.toList());
