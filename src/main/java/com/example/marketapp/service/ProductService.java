@@ -15,5 +15,5 @@ public interface ProductService {
     List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to,
                                         PageRequest pageRequest, String sortBy);
 
-    List<Product> getAllByCategoryIn(List<Long> categoriesId);
+    List<Product> getAllByCategoryIdIn(List<Long> categoriesId);
 }
