@@ -3,7 +3,6 @@ package com.example.marketapp.controller;
 import com.example.marketapp.model.Category;
 import com.example.marketapp.model.Product;
 import com.example.marketapp.service.ProductService;
-import com.example.marketapp.service.util.ProductSortService;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -99,10 +98,7 @@ class ProductControllerTest {
         List<Product> products = List.of(iPhone7, iPhoneX, samsung20);
         BigDecimal from = BigDecimal.valueOf(1200);
         BigDecimal to = BigDecimal.valueOf(Integer.MAX_VALUE);
-        String sortBy = "title";
-        Sort sort = Sort.by(ProductSortService.getSort(sortBy));
-        Pageable pageRequest = PageRequest.of(0, 1, sort);
-
+        Pageable pageRequest = PageRequest.of(0, 1, Sort.by("title"));
 
         Mockito.when(productService.findAllByPriceBetween(from, to, pageRequest)).thenReturn(products);
 
@@ -112,7 +108,7 @@ class ProductControllerTest {
                 .queryParam("to", to)
                 .queryParam("count", 1)
                 .queryParam("page", 0)
-                .queryParam("sortBy", sortBy)
+                .queryParam("sortBy", "title")
                 .when()
                 .get("/products/findAllByPrice")
                 .then()
