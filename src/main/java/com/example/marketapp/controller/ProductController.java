@@ -5,13 +5,16 @@ import com.example.marketapp.dto.ProductResponseDto;
 import com.example.marketapp.dto.mapper.ProductMapper;
 import com.example.marketapp.model.Product;
 import com.example.marketapp.service.ProductService;
+import com.example.marketapp.service.util.ProductSortService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,12 +25,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@AllArgsConstructor
 @RestController
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
+
+    @Autowired
+    public ProductController(ProductService productService,
+                             ProductMapper productMapper) {
+        this.productService = productService;
+        this.productMapper = productMapper;
+    }
 
     @PostMapping("/add")
     @ApiOperation(value = "save the new Product to DB ")
@@ -68,8 +77,9 @@ public class ProductController {
              @ApiParam (defaultValue = "value to default is 0") Integer page,
              @RequestParam (defaultValue = "title")
              @ApiParam (defaultValue = "value to default is title") String sortBy) {
-        PageRequest pageRequest = PageRequest.of(page, count);
-        return productService.findAllByPriceBetween(from, to, pageRequest,sortBy)
+        Sort sort = Sort.by(ProductSortService.getSort(sortBy));
+        Pageable pageRequest = PageRequest.of(page, count, sort);
+        return productService.findAllByPriceBetween(from, to, pageRequest)
                 .stream()
                 .map(productMapper::modelToDto)
                 .collect(Collectors.toList());

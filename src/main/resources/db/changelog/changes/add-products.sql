@@ -1,4 +1,4 @@
-INSERT INTO products (title, price, category_id) VALUES ('iPhone 12', 1250, 1);
+INSERT INTO products (title, price, category_id) VALUES ('iPhone 12', 1350, 1);
 INSERT INTO products (title, price, category_id) VALUES ('iPhone X', 550, 1);
 INSERT INTO products (title, price, category_id) VALUES ('iPhone 11', 750, 1);
 INSERT INTO products (title, price, category_id) VALUES ('iPhone 7', 570, 1);

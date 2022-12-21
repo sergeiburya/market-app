@@ -1,17 +1,18 @@
-CREATE TABLE IF NOT EXISTS categories
+CREATE TABLE categories
 (
-    id bigint NOT NULL AUTO_INCREMENT,
-    name varchar(255) NOT NULL,
-    PRIMARY KEY (id)
+    id   BIGINT AUTO_INCREMENT NOT NULL,
+    name VARCHAR(255),
+    CONSTRAINT pk_categories PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS products
+CREATE TABLE products
 (
-    id bigint NOT NULL AUTO_INCREMENT,
-    title varchar(255) NOT NULL,
-    price decimal(10,0) NOT NULL,
-    category_id bigint,
-    PRIMARY KEY (id),
-    CONSTRAINT category_fk FOREIGN KEY (category_id)
-                           REFERENCES categories (id)
-)
+    id          BIGINT AUTO_INCREMENT NOT NULL,
+    title       VARCHAR(255),
+    price       DECIMAL,
+    category_id BIGINT,
+    CONSTRAINT pk_products PRIMARY KEY (id)
+);
+
+ALTER TABLE products
+    ADD CONSTRAINT FK_PRODUCTS_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES categories (id);
